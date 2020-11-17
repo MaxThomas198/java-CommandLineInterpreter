@@ -120,10 +120,11 @@ class Parser {
         return args;
     }
 
-}
+} //tony
 
 class Terminal {
 
+    //tony
     public String pathNameGenerator(String path) { //function to generate the full given path if isn't correct
 
         if(path != null){
@@ -142,6 +143,7 @@ class Terminal {
         return null;
     }
 
+    //tony
     public String returnLastPath(String path){ //function to get the last name in path ex : /tony/home/test --- > 'test'
 
         int numOfSlashes = path.length() - path.replace("/", "").length(); //count the number of slashes
@@ -159,135 +161,7 @@ class Terminal {
         }
     }
 
-    public String[] help() { //function for listing all the available commands
-
-        String[] helps = new String[6];
-
-        helps[0] = "clear ----> cleaning the command window";
-        helps[1] = "cd ----> changing the directory, takes one parameter (the destination path)";
-        helps[2] = "date ----> show the current time and date";
-        helps[3] = "ls ----> list all the files and folders in the current path";
-        helps[4] = "cp ----> copy file, takes two parameters (the source path, the destination path";
-        helps[5] = "mkdir ----> create directory, takes one parameter (the destination path with the directory name added to it)";
-
-        return helps;
-    } //malek
-
-    public void args(String commandName) { //function to list all commands arguments
-
-        switch (commandName) {
-            case "cp":
-            case "mv":
-                System.out.println("arg 1 : Source path , arg 2 : Destination path");
-                break;
-            case "cd":
-                System.out.println("arg 1 : Destination path");
-                break;
-            case "mkdir":
-                System.out.println("arg 1 : Destination path with new directory name stuck to it");
-                break;
-            case "rmdir":
-            case "rm":
-                System.out.println("arg 1 : Destination path or folder name");
-                break;
-            default:
-                System.out.println(commandName + " : command not found");
-                break;
-        }
-    } //malek
-
-    public String pwd() {
-        return GlobalConstants.currentPath;
-    } //malek
-
-    public void clear() { //function for clearing the command window
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
-    } //malek
-
-    public String date() { //function to get the current date
-        Date currentDate = new Date();
-        return "Current date is " + currentDate;
-    } //malek
-
-    public void cd(String destinationPath) { //function to change directory
-
-        Path path = Path.of(pathNameGenerator(destinationPath));
-
-        if (destinationPath.startsWith("/") && Files.exists(path)) {
-            GlobalConstants.currentPath = destinationPath;
-        }
-
-        if (!destinationPath.startsWith("/") && Files.exists(path)) {
-
-            Path pathAfter = Path.of(GlobalConstants.currentPath + destinationPath);
-            if (Files.exists(pathAfter)) {
-                GlobalConstants.currentPath += destinationPath;
-            } else {
-                System.out.println("cd : " + (GlobalConstants.currentPath + destinationPath) + " : no such file or directory ");
-            }
-
-        }
-
-        if (destinationPath.startsWith(".")) {
-
-            try {
-                int numberOfPathsToBack = destinationPath.trim().split("/").length;
-
-                for (int i = GlobalConstants.currentPath.length() - 1; i < numberOfPathsToBack; i--) {
-
-                    if (GlobalConstants.currentPath.endsWith(".") || GlobalConstants.currentPath.endsWith("/")) {
-                        GlobalConstants.currentPath.substring(0, GlobalConstants.currentPath.length() - 1);
-                    }
-                }
-            } catch (Exception ex) {
-                //exception here
-            }
-
-        }
-
-    } //tony
-
-    public void mkdir(String destinationPath) { //function to create directory
-
-        String finalPath = pathNameGenerator(destinationPath);
-
-        File newDir = new File(finalPath);
-
-        if (!newDir.exists()) { // if the dir is already exists
-            try {
-                newDir.mkdirs(); // creating the dir
-                System.out.println("Directory Created Successfully");
-
-            } catch (Exception ex) {
-                //
-            }
-        } else {
-            System.out.println("This directory is already exists");
-        }
-
-
-    } //gomaa
-
-    public void rmdir(String destinationPath) { //function to delete only empty directory
-
-        String finalPath;
-
-        finalPath = pathNameGenerator(destinationPath);  //generating the full path
-
-        File destinationDir = new File(finalPath);
-        File[] dirFiles = destinationDir.listFiles();
-
-        if (dirFiles.length == 0) { // because rmdir only remove empty directories
-            destinationDir.delete();
-            System.out.println("Directory Deleted Successfully");
-
-        } else {
-            System.out.println("This directory cannot be deleted because it's not empty");
-        }
-
-    } //gomaa
-
+    //tony
     public void rm(String[] paths){ //function to delete empty directories & files & non empty directories
 
         if (paths[0] != null && paths[1] == null){ //if the input is a file
@@ -337,8 +211,9 @@ class Terminal {
             System.out.println("Invalid Arguments");
         }
 
-    } //tony
+    }
 
+    //tony
     public void cat(String[] paths) throws IOException { //multitask function to read, write and interact with files
 
         if (paths[0] != null && !paths[0].equals(">")  &&  paths[1] == null && paths[2] == null) { //case 1 : read from file ex : cat test1
@@ -351,10 +226,14 @@ class Terminal {
 
                 try {
                     Scanner fileReader = new Scanner(file); // declare a reader
-                    while (fileReader.hasNextLine()) {
+                    int i =0;
+                    while (fileReader.hasNextLine() && i < 10){
+
                         String data = fileReader.nextLine(); //read the data while there any ..
                         System.out.println(data);
+                        i++;
                     }
+
                     fileReader.close(); //closing the file after finish printing all the data
                 } catch (FileNotFoundException ex) {
                     System.out.println("An error occurred while opening the file ");
@@ -466,33 +345,9 @@ class Terminal {
             System.out.println("Invalid Arguments");
         }
 
-    } //tony
+    }
 
-    public String[] ls() { //function to list all the folders, files in the current path
-
-        File currentDir = new File(GlobalConstants.currentPath);
-        File[] dirFiles = currentDir.listFiles();
-        String[] names = new String[dirFiles.length];
-
-        try {
-            if (dirFiles.length > 0 && dirFiles != null) {
-
-                for (int i = 0; i < dirFiles.length; i++) {
-//                    System.out.print(dirFiles[i].getName() + " "); //printing list of files of the given path
-                    names[i] = dirFiles[i].getName()+ " ";
-                }
-                return names;
-            }else {
-                return null;
-            }
-
-        } catch (Exception e) {
-            System.out.println("The is no files in this directory, please make sure that you type the path correctly");
-            return null;
-        }
-
-    } //gomaa
-
+    //tony
     public void cp(String sourcePath, String destinationPath) throws IOException { // function to copy files , empty dir and non empty dir
 
         String file1, file2;
@@ -605,8 +460,9 @@ class Terminal {
         }
 
 
-    } //tony
+    }
 
+    //tony
     public void mv(String sourcePath, String destinationPath) throws IOException { //same as cp function + deleting the old files at the end
 
         String file1, file2;
@@ -732,13 +588,178 @@ class Terminal {
         }
 
 
-    } //tony
+    }
 
+    //tony
+    public void cd(String destinationPath) { //function to change directory
+
+        Path path = Path.of(pathNameGenerator(destinationPath));
+
+        if (destinationPath.startsWith("/") && Files.exists(path)) {
+            GlobalConstants.currentPath = destinationPath;
+        }
+
+        if (!destinationPath.startsWith("/") && Files.exists(path)) {
+
+            Path pathAfter = Path.of(GlobalConstants.currentPath + destinationPath);
+            if (Files.exists(pathAfter)) {
+                GlobalConstants.currentPath += destinationPath;
+            } else {
+                System.out.println("cd : " + (GlobalConstants.currentPath + destinationPath) + " : no such file or directory ");
+            }
+
+        }
+
+        if (destinationPath.startsWith(".")) {
+
+            try {
+                int numberOfPathsToBack = destinationPath.trim().split("/").length;
+
+                for (int i = GlobalConstants.currentPath.length() - 1; i < numberOfPathsToBack; i--) {
+
+                    if (GlobalConstants.currentPath.endsWith(".") || GlobalConstants.currentPath.endsWith("/")) {
+                        GlobalConstants.currentPath.substring(0, GlobalConstants.currentPath.length() - 1);
+                    }
+                }
+            } catch (Exception ex) {
+                //exception here
+            }
+
+        }
+
+    }
+
+    //malek
+    public String[] help() { //function for listing all the available commands
+
+        String[] helps = new String[6];
+
+        helps[0] = "clear ----> cleaning the command window";
+        helps[1] = "cd ----> changing the directory, takes one parameter (the destination path)";
+        helps[2] = "date ----> show the current time and date";
+        helps[3] = "ls ----> list all the files and folders in the current path";
+        helps[4] = "cp ----> copy file, takes two parameters (the source path, the destination path";
+        helps[5] = "mkdir ----> create directory, takes one parameter (the destination path with the directory name added to it)";
+
+        return helps;
+    }
+
+    //malek
+    public void args(String commandName) { //function to list all commands arguments
+
+        switch (commandName) {
+            case "cp":
+            case "mv":
+                System.out.println("arg 1 : Source path , arg 2 : Destination path");
+                break;
+            case "cd":
+                System.out.println("arg 1 : Destination path");
+                break;
+            case "mkdir":
+                System.out.println("arg 1 : Destination path with new directory name stuck to it");
+                break;
+            case "rmdir":
+            case "rm":
+                System.out.println("arg 1 : Destination path or folder name");
+                break;
+            default:
+                System.out.println(commandName + " : command not found");
+                break;
+        }
+    }
+
+    //malek
+    public String pwd() {
+        return GlobalConstants.currentPath;
+    }
+
+    //malek
+    public void clear() { //function for clearing the command window
+        for (int i = 0 ; i < 800 ; i++)
+            System.out.println();
+        System.out.flush();
+    }
+
+    //malek
+    public String date() { //function to get the current date
+        Date currentDate = new Date();
+        return "Current date is " + currentDate;
+    }
+
+    //gomaa
+    public void mkdir(String destinationPath) { //function to create directory
+
+        String finalPath = pathNameGenerator(destinationPath);
+
+        File newDir = new File(finalPath);
+
+        if (!newDir.exists()) { // if the dir is already exists
+            try {
+                newDir.mkdirs(); // creating the dir
+                System.out.println("Directory Created Successfully");
+
+            } catch (Exception ex) {
+                //
+            }
+        } else {
+            System.out.println("This directory is already exists");
+        }
+
+
+    }
+
+    //gomaa
+    public void rmdir(String destinationPath) { //function to delete only empty directory
+
+        String finalPath;
+
+        finalPath = pathNameGenerator(destinationPath);  //generating the full path
+
+        File destinationDir = new File(finalPath);
+        File[] dirFiles = destinationDir.listFiles();
+
+        if (dirFiles.length == 0) { // because rmdir only remove empty directories
+            destinationDir.delete();
+            System.out.println("Directory Deleted Successfully");
+
+        } else {
+            System.out.println("This directory cannot be deleted because it's not empty");
+        }
+
+    }
+
+    //gomaa
+    public String[] ls() { //function to list all the folders, files in the current path
+
+        File currentDir = new File(GlobalConstants.currentPath);
+        File[] dirFiles = currentDir.listFiles();
+        String[] names = new String[dirFiles.length];
+
+        try {
+            if (dirFiles.length > 0 && dirFiles != null) {
+
+                for (int i = 0; i < dirFiles.length; i++) {
+//                    System.out.print(dirFiles[i].getName() + " "); //printing list of files of the given path
+                    names[i] = dirFiles[i].getName()+ " ";
+                }
+                return names;
+            }else {
+                return null;
+            }
+
+        } catch (Exception e) {
+            System.out.println("The is no files in this directory, please make sure that you type the path correctly");
+            return null;
+        }
+
+    }
+
+    //mohamed
     public void reDir(String[] args, String actionCommand) throws IOException {
 
         String firstCommand = args[0]; //the first command
 
-        String secondCommand = args[1]; //the second command which is the file to read in it
+        String secondCommand = args[1]; //the second command which is the file to write in it
 
         File file = new File(pathNameGenerator(secondCommand));
         if(!file.exists()){ //check if the file is exists
@@ -773,7 +794,7 @@ class Terminal {
 
             case "ls":
                 fileWriter.write("\n");
-                for (int i = 0; i < help().length; i++){
+                for (int i = 0; i < ls().length; i++){
                     fileWriter.write(ls()[i]);
                     fileWriter.write("\n");
                 }
@@ -791,8 +812,9 @@ class Terminal {
         }
 
 
-    } //mohamed
+    }
 
+    //mohamed
     public void more(String fileName) throws IOException{
 
         try {
@@ -808,25 +830,38 @@ class Terminal {
         catch (FileNotFoundException e) {
             System.out.println("file not found.");
         }
-    } //mohamed
+    }
 
+    //mohamed
     public void pipe(String[] args) {
 
-        System.out.println("1 : "+args[0]);
-        System.out.println("2 : "+args[3]);
+        String firstCommand = args[0]; //the first command "cat"
+        String secondCommand = args[3]; //the second command "more"
 
-        for (int i = 0 ; i< args.length; i++){
-            if(args[i] != null){
-                System.out.println(args[i]);
+        if (firstCommand.equals("cat") && secondCommand.equals("more")){
+            try {
+                String fileName = args[1]; //which is the second argument : the file passed to cat function
+                File file = new File(pathNameGenerator(fileName));
+                if(file.exists()){
+                    more(fileName); //displaying the whole data
+                }else {
+                    System.out.println("File not exists !");
+                }
+
+            }catch (Exception ex){
+                //
             }
-        }
 
+        }else {
+            System.out.println("Invalid Commands");
+        }
 
 
     }
 
 }
 
+//gomaa & malek & mohamed
     public class Cmd {
 
         public static void main(String[] args) throws IOException {
@@ -857,6 +892,9 @@ class Terminal {
                         case "pwd":
                             System.out.println(action.pwd());
                             break;
+                        case "clear":
+                            action.clear();
+                            break;
                         case "args":
                             action.args(actionArgs[0]);
                             break;
@@ -867,7 +905,7 @@ class Terminal {
                             action.cd(actionArgs[0]);
                             break;
                         case "ls":
-                            for (int i = 0; i < action.help().length; i++) {
+                            for (int i = 0; i < action.ls().length; i++) {
                                 System.out.println(action.ls()[i]);
                             }
                             break;
@@ -903,7 +941,7 @@ class Terminal {
                     }
 
                 } else {
-                    if (command.equals("mkdir") || command.equals("rmdir") || command.equals("cd") || command.equals("cat") || command.equals("rm") || command.equals("cp") || command.equals("mv")) {
+                    if (command.equals("mkdir") || command.equals("rmdir") || command.equals("cat") || command.equals("rm") || command.equals("cd") || command.equals("cp") || command.equals("mv")) {
                         System.out.println(command + " : command arguments missing ");
                     } else {
                         System.out.println(command + " : command not found, please check that you type the command correctly and passed it's arguments if there any. ");
