@@ -120,11 +120,9 @@ class Parser {
         return args;
     }
 
-} //tony
-
+}
 class Terminal {
 
-    //tony
     public String pathNameGenerator(String path) { //function to generate the full given path if isn't correct
 
         if(path != null){
@@ -143,7 +141,6 @@ class Terminal {
         return null;
     }
 
-    //tony
     public String returnLastPath(String path){ //function to get the last name in path ex : /tony/home/test --- > 'test'
 
         int numOfSlashes = path.length() - path.replace("/", "").length(); //count the number of slashes
@@ -161,7 +158,6 @@ class Terminal {
         }
     }
 
-    //tony
     public void rm(String[] paths){ //function to delete empty directories & files & non empty directories
 
         if (paths[0] != null && paths[1] == null){ //if the input is a file
@@ -213,7 +209,6 @@ class Terminal {
 
     }
 
-    //tony
     public void cat(String[] paths) throws IOException { //multitask function to read, write and interact with files
 
         if (paths[0] != null && !paths[0].equals(">")  &&  paths[1] == null && paths[2] == null) { //case 1 : read from file ex : cat test1
@@ -347,7 +342,6 @@ class Terminal {
 
     }
 
-    //tony
     public void cp(String sourcePath, String destinationPath) throws IOException { // function to copy files , empty dir and non empty dir
 
         String file1, file2;
@@ -462,7 +456,6 @@ class Terminal {
 
     }
 
-    //tony
     public void mv(String sourcePath, String destinationPath) throws IOException { //same as cp function + deleting the old files at the end
 
         String file1, file2;
@@ -590,7 +583,6 @@ class Terminal {
 
     }
 
-    //tony
     public void cd(String destinationPath) { //function to change directory
 
         Path path = Path.of(pathNameGenerator(destinationPath));
@@ -629,7 +621,6 @@ class Terminal {
 
     }
 
-    //malek
     public String[] help() { //function for listing all the available commands
 
         String[] helps = new String[6];
@@ -644,7 +635,6 @@ class Terminal {
         return helps;
     }
 
-    //malek
     public void args(String commandName) { //function to list all commands arguments
 
         switch (commandName) {
@@ -668,25 +658,21 @@ class Terminal {
         }
     }
 
-    //malek
     public String pwd() {
         return GlobalConstants.currentPath;
     }
 
-    //malek
     public void clear() { //function for clearing the command window
         for (int i = 0 ; i < 800 ; i++)
             System.out.println();
         System.out.flush();
     }
 
-    //malek
     public String date() { //function to get the current date
         Date currentDate = new Date();
         return "Current date is " + currentDate;
     }
 
-    //gomaa
     public void mkdir(String destinationPath) { //function to create directory
 
         String finalPath = pathNameGenerator(destinationPath);
@@ -708,7 +694,6 @@ class Terminal {
 
     }
 
-    //gomaa
     public void rmdir(String destinationPath) { //function to delete only empty directory
 
         String finalPath;
@@ -728,7 +713,6 @@ class Terminal {
 
     }
 
-    //gomaa
     public String[] ls() { //function to list all the folders, files in the current path
 
         File currentDir = new File(GlobalConstants.currentPath);
@@ -754,7 +738,6 @@ class Terminal {
 
     }
 
-    //mohamed
     public void reDir(String[] args, String actionCommand) throws IOException {
 
         String firstCommand = args[0]; //the first command
@@ -814,7 +797,6 @@ class Terminal {
 
     }
 
-    //mohamed
     public void more(String fileName) throws IOException{
 
         try {
@@ -832,7 +814,6 @@ class Terminal {
         }
     }
 
-    //mohamed
     public void pipe(String[] args) {
 
         String firstCommand = args[0]; //the first command "cat"
@@ -861,7 +842,6 @@ class Terminal {
 
 }
 
-//gomaa & malek & mohamed
     public class Cmd {
 
         public static void main(String[] args) throws IOException {
